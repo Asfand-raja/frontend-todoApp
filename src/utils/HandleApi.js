@@ -1,8 +1,7 @@
 import axios from "axios";
 
-// ✅ Force local backend for now to fix auth issues
-const baseUrl = "http://localhost:5000";
-// const baseUrl = process.env.REACT_APP_API_URL || "http://localhost:5000";
+// ✅ Use backend URL from env for production/local flexibility
+const baseUrl = process.env.REACT_APP_API_URL || "http://localhost:5000";
 
 const api = axios.create({
   baseURL: baseUrl,
