@@ -72,7 +72,7 @@ const DashboardPage = ({ toDo, setToDo }) => {
             onMouseOver={(e) => e.currentTarget.style.transform = 'translateY(-3px)'}
             onMouseOut={(e) => e.currentTarget.style.transform = 'translateY(0)'}
           >
-            + Create New Project
+            + Add New Task
           </button>
         </section>
 

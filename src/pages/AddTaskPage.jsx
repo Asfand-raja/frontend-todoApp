@@ -197,7 +197,7 @@ const AddTaskPage = ({ setToDo }) => {
           onMouseOver={(e) => e.currentTarget.style.transform = 'translateY(-3px)'}
           onMouseOut={(e) => e.currentTarget.style.transform = 'translateY(0)'}
         >
-          {editingTask ? 'Save Changes' : 'Launch Task'}
+          {editingTask ? 'Save Changes' : 'Add'}
         </button>
       </form>
     </div>
