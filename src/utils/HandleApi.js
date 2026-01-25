@@ -27,6 +27,8 @@ export const addToDo = async (todoData, setFormState, setToDo, navigate) => {
     if (setToDo) getAllToDo(setToDo);
     if (navigate) navigate("/dashboard");
   } catch (err) {
+    const msg = err.response?.data?.message || err.message || "Failed to add task";
+    alert(`Error: ${msg}`);
     console.error("Add todo error:", err.response?.data || err.message);
   }
 };
@@ -39,6 +41,8 @@ export const updateToDo = async (todoData, setFormState, setToDo, setIsUpdating,
     if (setToDo) getAllToDo(setToDo);
     if (navigate) navigate("/dashboard");
   } catch (err) {
+    const msg = err.response?.data?.message || err.message || "Failed to update task";
+    alert(`Error: ${msg}`);
     console.error("Update todo error:", err.response?.data || err.message);
   }
 };

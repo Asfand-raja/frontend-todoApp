@@ -33,7 +33,7 @@ const DashboardPage = ({ toDo, setToDo }) => {
       <nav className="dashboard-navbar">
         <div className="navbar-container">
           <h2 className="navbar-title">
-            {user ? user.name : 'My Tasks'}
+            {user ? `${user.firstName} ${user.lastName}` : 'My Tasks'}
           </h2>
           <button className="logout-btn-red" onClick={handleLogout}>
             <BiLogOut /> Logout
@@ -47,7 +47,7 @@ const DashboardPage = ({ toDo, setToDo }) => {
         <section className="hero-section">
           <div className="hero-text">
             <h1 className="hero-greeting">
-              {user?.name ? user.name.split(' ')[0] : 'Dashboard'}
+              {user?.firstName ? `Hi, ${user.firstName}` : 'Dashboard'}
             </h1>
             <p className="hero-subtext">
               You have {toDo?.length || 0} task{toDo?.length !== 1 && 's'} today.
@@ -58,16 +58,21 @@ const DashboardPage = ({ toDo, setToDo }) => {
             className="add-task-hero-btn"
             onClick={() => navigate('/add')}
             style={{
-              backgroundColor: '#8B4513', // brown
+              backgroundColor: '#4b3621', // formal brown
               color: '#fff',
               border: 'none',
-              padding: '10px 16px',
-              borderRadius: '6px',
-              fontWeight: 'bold',
+              padding: '16px 32px',
+              borderRadius: '16px',
+              fontWeight: '800',
+              fontSize: '1.1rem',
               cursor: 'pointer',
+              boxShadow: '0 10px 20px rgba(75, 54, 33, 0.2)',
+              transition: 'transform 0.2s ease'
             }}
+            onMouseOver={(e) => e.currentTarget.style.transform = 'translateY(-3px)'}
+            onMouseOut={(e) => e.currentTarget.style.transform = 'translateY(0)'}
           >
-            + New Task
+            + Create New Project
           </button>
         </section>
 
