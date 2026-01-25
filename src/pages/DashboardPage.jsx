@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { BiLogOut } from 'react-icons/bi';
 import { AiFillDelete } from 'react-icons/ai';
 import { MdDone } from 'react-icons/md';
-import { getAllToDo, toggleComplete, deleteToDo } from '../utils/HandleApi';
+import { toggleComplete, deleteToDo } from '../utils/HandleApi';
 
 const DashboardPage = ({ toDo, setToDo }) => {
   const navigate = useNavigate();
