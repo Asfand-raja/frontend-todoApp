@@ -8,51 +8,74 @@ import { getAllToDo, toggleComplete, deleteToDo } from '../utils/HandleApi';
 const DashboardPage = () => {
   const navigate = useNavigate();
   const [toDo, setToDo] = useState([]);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
-    // If session is invalid, backend will reject automatically
+    // Load user info from localStorage
+    const storedUser = JSON.parse(localStorage.getItem('user'));
+    if (storedUser) setUser(storedUser);
+
+    // Fetch tasks
     getAllToDo(setToDo);
   }, []);
 
   const handleLogout = () => {
-    // Optional: call /auth/logout if you have it
+    localStorage.removeItem('user'); // clear session
     navigate('/');
   };
 
   const getPriorityColor = (priority) => {
     if (priority === 'High') return '#ff5252';
     if (priority === 'Medium') return '#ffca28';
-    if (priority === 'Low') return '#00aaff';
+    if (priority === 'Low') return '#8B4513'; // brownish for Low
     return '#5d6d7e';
   };
 
   return (
     <div className="dashboard-page">
+      {/* Navbar */}
       <nav className="dashboard-navbar">
         <div className="navbar-container">
-          <h2 className="navbar-title">My Tasks</h2>
+          <h2 className="navbar-title">
+            {user ? `${user.firstName} ${user.lastName}'s Tasks` : 'My Tasks'}
+          </h2>
           <button className="logout-btn-red" onClick={handleLogout}>
             <BiLogOut /> Logout
           </button>
         </div>
       </nav>
 
+      {/* Main Content */}
       <main className="dashboard-container">
+        {/* Hero Section */}
         <section className="hero-section">
           <div className="hero-text">
-            <h1 className="hero-greeting">Dashboard</h1>
+            <h1 className="hero-greeting">
+              {user ? `Hi, ${user.firstName}` : 'Dashboard'}
+            </h1>
             <p className="hero-subtext">
               You have {toDo.length} task{toDo.length !== 1 && 's'} today.
             </p>
           </div>
+
           <button
             className="add-task-hero-btn"
-            onClick={() => navigate('/add-task')}
+            onClick={() => navigate('/add')}
+            style={{
+              backgroundColor: '#8B4513', // brown
+              color: '#fff',
+              border: 'none',
+              padding: '10px 16px',
+              borderRadius: '6px',
+              fontWeight: 'bold',
+              cursor: 'pointer',
+            }}
           >
             + New Task
           </button>
         </section>
 
+        {/* Tasks Section */}
         <section className="task-section">
           <div className="task-grid">
             {toDo.length > 0 ? (
@@ -61,7 +84,7 @@ const DashboardPage = () => {
                   key={item._id}
                   className={`task-card ${item.completed ? 'completed' : ''}`}
                   onClick={() =>
-                    navigate('/add-task', { state: { task: item } })
+                    navigate('/add', { state: { task: item } }) // edit task
                   }
                 >
                   <div className="task-header">
@@ -78,10 +101,7 @@ const DashboardPage = () => {
                       >
                         {item.completed && <MdDone color="#fff" />}
                       </div>
-
-                      <span className="task-emoji">
-                        {item.emoji || '📅'}
-                      </span>
+                      <span className="task-emoji">{item.emoji || '📅'}</span>
                     </div>
 
                     <div
@@ -91,9 +111,7 @@ const DashboardPage = () => {
                       <span
                         className="priority-badge"
                         style={{
-                          backgroundColor: getPriorityColor(
-                            item.priority || 'Medium'
-                          ),
+                          backgroundColor: getPriorityColor(item.priority || 'Medium'),
                         }}
                       >
                         {item.priority || 'Medium'}
@@ -128,9 +146,7 @@ const DashboardPage = () => {
                 </div>
               ))
             ) : (
-              <p className="no-tasks">
-                No tasks found. Time to add some!
-              </p>
+              <p className="no-tasks">No tasks found. Time to add some!</p>
             )}
           </div>
         </section>
