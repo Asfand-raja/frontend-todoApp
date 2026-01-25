@@ -3,27 +3,31 @@ import { useNavigate } from 'react-router-dom';
 import { BiLogOut } from 'react-icons/bi';
 import { AiFillDelete } from 'react-icons/ai';
 import { MdDone } from 'react-icons/md';
-import { toggleComplete, deleteToDo } from '../utils/HandleApi';
+import { getAllToDo, toggleComplete, deleteToDo } from '../utils/HandleApi';
 
-const DashboardPage = ({ toDo, setToDo }) => {
+const DashboardPage = () => {
   const navigate = useNavigate();
+  const [toDo, setToDo] = useState([]);
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    // Load user info from localStorage
+    // Load user
     const storedUser = JSON.parse(localStorage.getItem('user'));
     if (storedUser) setUser(storedUser);
+
+    // Fetch tasks AFTER login
+    getAllToDo(setToDo);
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem('user'); // clear session
+    localStorage.removeItem('user');
     navigate('/');
   };
 
   const getPriorityColor = (priority) => {
     if (priority === 'High') return '#ff5252';
     if (priority === 'Medium') return '#ffca28';
-    if (priority === 'Low') return '#00aaff'; // Blue for Low
+    if (priority === 'Low') return '#00aaff';
     return '#5d6d7e';
   };
 
@@ -41,51 +45,35 @@ const DashboardPage = ({ toDo, setToDo }) => {
         </div>
       </nav>
 
-      {/* Main Content */}
+      {/* Main */}
       <main className="dashboard-container">
-        {/* Hero Section */}
         <section className="hero-section">
           <div className="hero-text">
             <h1 className="hero-greeting">
               {user?.firstName ? `Hi, ${user.firstName}` : 'Dashboard'}
             </h1>
             <p className="hero-subtext">
-              You have {toDo?.length || 0} task{toDo?.length !== 1 && 's'} today.
+              You have {toDo.length} task{toDo.length !== 1 && 's'} today.
             </p>
           </div>
 
           <button
             className="add-task-hero-btn"
             onClick={() => navigate('/add')}
-            style={{
-              backgroundColor: '#4b3621', // formal brown
-              color: '#fff',
-              border: 'none',
-              padding: '16px 32px',
-              borderRadius: '16px',
-              fontWeight: '800',
-              fontSize: '1.1rem',
-              cursor: 'pointer',
-              boxShadow: '0 10px 20px rgba(75, 54, 33, 0.2)',
-              transition: 'transform 0.2s ease'
-            }}
-            onMouseOver={(e) => e.currentTarget.style.transform = 'translateY(-3px)'}
-            onMouseOut={(e) => e.currentTarget.style.transform = 'translateY(0)'}
           >
             + Add New Task
           </button>
         </section>
 
-        {/* Tasks Section */}
         <section className="task-section">
           <div className="task-grid">
-            {Array.isArray(toDo) && toDo.length > 0 ? (
+            {toDo.length > 0 ? (
               toDo.map((item) => (
                 <div
                   key={item._id}
                   className={`task-card ${item.completed ? 'completed' : ''}`}
                   onClick={() =>
-                    navigate('/add', { state: { task: item } }) // edit task
+                    navigate('/add', { state: { task: item } })
                   }
                 >
                   <div className="task-header">
@@ -112,10 +100,10 @@ const DashboardPage = ({ toDo, setToDo }) => {
                       <span
                         className="priority-badge"
                         style={{
-                          backgroundColor: getPriorityColor(item.priority || 'Medium'),
+                          backgroundColor: getPriorityColor(item.priority),
                         }}
                       >
-                        {item.priority || 'Medium'}
+                        {item.priority}
                       </span>
 
                       <AiFillDelete
@@ -130,19 +118,8 @@ const DashboardPage = ({ toDo, setToDo }) => {
                   </div>
 
                   <div className="task-main">
-                    <label className="task-label">TASK</label>
-                    <p className="task-text">{item.text}</p>
-                  </div>
-
-                  <div className="task-dates-row">
-                    <div className="date-item">
-                      <label>ONGOING DATE</label>
-                      <span>{item.ongoingDate || '---'}</span>
-                    </div>
-                    <div className="date-item">
-                      <label>LAST DATE</label>
-                      <span>{item.lastDate || '---'}</span>
-                    </div>
+                    <label>TASK</label>
+                    <p>{item.text}</p>
                   </div>
                 </div>
               ))
