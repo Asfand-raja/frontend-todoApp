@@ -32,11 +32,7 @@ const LoginPage = ({ isSignup = false }) => {
     if (provider === "Google") {
       window.location.href = `${backendUrl}/auth/google`;
     } else if (provider === "Apple") {
-      alert("Apple Login support is being configured. Redirecting to mock flow.");
-      setTimeout(() => {
-        alert(`${provider} authentication successful!`);
-        navigate('/');
-      }, 1000);
+      alert("Apple Login support is currently being reviewed for security certification. We'll have it ready soon!");
     }
   };
 
