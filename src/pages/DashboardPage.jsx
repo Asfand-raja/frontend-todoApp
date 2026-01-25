@@ -5,18 +5,14 @@ import { AiFillDelete } from 'react-icons/ai';
 import { MdDone } from 'react-icons/md';
 import { getAllToDo, toggleComplete, deleteToDo } from '../utils/HandleApi';
 
-const DashboardPage = () => {
+const DashboardPage = ({ toDo, setToDo }) => {
   const navigate = useNavigate();
-  const [toDo, setToDo] = useState([]);
   const [user, setUser] = useState(null);
 
   useEffect(() => {
     // Load user info from localStorage
     const storedUser = JSON.parse(localStorage.getItem('user'));
     if (storedUser) setUser(storedUser);
-
-    // Fetch tasks
-    getAllToDo(setToDo);
   }, []);
 
   const handleLogout = () => {
@@ -27,7 +23,7 @@ const DashboardPage = () => {
   const getPriorityColor = (priority) => {
     if (priority === 'High') return '#ff5252';
     if (priority === 'Medium') return '#ffca28';
-    if (priority === 'Low') return '#8B4513'; // brownish for Low
+    if (priority === 'Low') return '#00aaff'; // Blue for Low
     return '#5d6d7e';
   };
 
@@ -37,7 +33,7 @@ const DashboardPage = () => {
       <nav className="dashboard-navbar">
         <div className="navbar-container">
           <h2 className="navbar-title">
-            {user ? `${user.firstName} ${user.lastName}'s Tasks` : 'My Tasks'}
+            {user ? user.name : 'My Tasks'}
           </h2>
           <button className="logout-btn-red" onClick={handleLogout}>
             <BiLogOut /> Logout
@@ -51,7 +47,7 @@ const DashboardPage = () => {
         <section className="hero-section">
           <div className="hero-text">
             <h1 className="hero-greeting">
-              {user ? `Hi, ${user.firstName}` : 'Dashboard'}
+              {user ? user.name.split(' ')[0] : 'Dashboard'}
             </h1>
             <p className="hero-subtext">
               You have {toDo.length} task{toDo.length !== 1 && 's'} today.

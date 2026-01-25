@@ -34,86 +34,120 @@ const AddTaskPage = ({ setToDo }) => {
       : formState;
 
     if (editingTask) {
-      // Update task
       updateToDo(todoData, setFormState, setToDo, null, navigate);
     } else {
-      // Add new task
       addToDo(todoData, setFormState, setToDo, navigate);
     }
   };
 
+  const getPriorityColor = (level, active) => {
+    if (!active) return '#f0f4f8';
+    if (level === 'High') return '#ff5252';
+    if (level === 'Medium') return '#ffca28';
+    return '#00aaff'; // Blue for Low
+  };
+
   return (
-    <div className="add-task-container">
-      {/* Header */}
-      <header className="add-task-header">
+    <div className="add-task-container" style={{
+      maxWidth: '800px',
+      margin: '60px auto',
+      padding: '50px',
+      background: '#fff',
+      borderRadius: '24px',
+      boxShadow: '0 20px 50px rgba(0,0,0,0.05)',
+      border: '1px solid #f0f4f8'
+    }}>
+      <header className="add-task-header" style={{ marginBottom: '40px', display: 'flex', alignItems: 'center', gap: '20px' }}>
         <BsArrowLeft
           className="back-icon"
           onClick={() => navigate('/dashboard')}
-          style={{ cursor: 'pointer', fontSize: '24px' }}
+          style={{ cursor: 'pointer', fontSize: '28px', color: '#1e272e' }}
         />
-        <h1>{editingTask ? 'Update Task' : 'Create New Task'}</h1>
+        <h1 style={{ fontSize: '2.5rem', fontWeight: '800', color: '#4b3621', letterSpacing: '-1px' }}>
+          {editingTask ? 'Edit Task Detail' : 'Create New Project'}
+        </h1>
       </header>
 
-      {/* Task Form */}
-      <form className="add-task-form" onSubmit={handleSubmit}>
-        {/* Task Name */}
+      <form className="add-task-form" onSubmit={handleSubmit} style={{ display: 'grid', gap: '30px' }}>
         <div className="form-item">
-          <label>TASK NAME</label>
+          <label style={{ fontSize: '0.85rem', fontWeight: '800', color: '#5d6d7e', letterSpacing: '1px', marginBottom: '10px', display: 'block' }}>TASK NAME</label>
           <input
             type="text"
-            placeholder="What needs to be done?"
+            placeholder="Type your task here..."
             value={formState.text}
             onChange={(e) => handleChange('text', e.target.value)}
             required
+            style={{
+              padding: '18px 24px',
+              borderRadius: '16px',
+              border: '2px solid #f0f4f8',
+              background: '#fcfcfc',
+              fontSize: '1.1rem',
+              outline: 'none',
+              transition: 'border-color 0.2s',
+              width: '100%'
+            }}
           />
         </div>
 
-        {/* Dates */}
-        <div className="form-row">
+        <div className="form-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '25px' }}>
           <div className="form-item">
-            <label>ONGOING DATE</label>
+            <label style={{ fontSize: '0.85rem', fontWeight: '800', color: '#5d6d7e', letterSpacing: '1px', marginBottom: '10px', display: 'block' }}>START DATE</label>
             <input
               type="date"
               value={formState.ongoingDate}
               onChange={(e) => handleChange('ongoingDate', e.target.value)}
+              style={{
+                padding: '16px 20px',
+                borderRadius: '14px',
+                border: '2px solid #f0f4f8',
+                background: '#fcfcfc',
+                fontSize: '1rem',
+                outline: 'none',
+                width: '100%'
+              }}
             />
           </div>
 
           <div className="form-item">
-            <label>LAST DATE</label>
+            <label style={{ fontSize: '0.85rem', fontWeight: '800', color: '#5d6d7e', letterSpacing: '1px', marginBottom: '10px', display: 'block' }}>DUE DATE</label>
             <input
               type="date"
               value={formState.lastDate}
               onChange={(e) => handleChange('lastDate', e.target.value)}
+              style={{
+                padding: '16px 20px',
+                borderRadius: '14px',
+                border: '2px solid #f0f4f8',
+                background: '#fcfcfc',
+                fontSize: '1rem',
+                outline: 'none',
+                width: '100%'
+              }}
             />
           </div>
         </div>
 
-        {/* Priority */}
         <div className="form-item">
-          <label>IMPORTANCE (PRIORITY)</label>
-          <div className="importance-selector">
+          <label style={{ fontSize: '0.85rem', fontWeight: '800', color: '#5d6d7e', letterSpacing: '1px', marginBottom: '10px', display: 'block' }}>PRIORITY LEVEL</label>
+          <div className="importance-selector" style={{ display: 'flex', gap: '15px' }}>
             {['Low', 'Medium', 'High'].map((level) => (
               <button
                 key={level}
                 type="button"
-                className={`importance-btn ${priorityClass(level, formState.priority)}`}
                 onClick={() => handleChange('priority', level)}
                 style={{
-                  backgroundColor:
-                    formState.priority === level
-                      ? level === 'High'
-                        ? '#ff5252'
-                        : level === 'Medium'
-                        ? '#ffca28'
-                        : '#8B4513'
-                      : '#e0e0e0',
-                  color: formState.priority === level ? '#fff' : '#000',
+                  flex: 1,
+                  padding: '14px',
+                  borderRadius: '14px',
                   border: 'none',
-                  padding: '6px 12px',
-                  marginRight: '8px',
-                  borderRadius: '5px',
+                  backgroundColor: getPriorityColor(level, formState.priority === level),
+                  color: formState.priority === level ? '#fff' : '#5d6d7e',
+                  fontWeight: '700',
+                  fontSize: '0.95rem',
                   cursor: 'pointer',
+                  transition: 'all 0.3s ease',
+                  boxShadow: formState.priority === level ? '0 10px 20px rgba(0,0,0,0.1)' : 'none'
                 }}
               >
                 {level}
@@ -122,22 +156,21 @@ const AddTaskPage = ({ setToDo }) => {
           </div>
         </div>
 
-        {/* Emoji */}
         <div className="form-item">
-          <label>PICK AN EMOJI</label>
-          <div className="emoji-selector">
+          <label style={{ fontSize: '0.85rem', fontWeight: '800', color: '#5d6d7e', letterSpacing: '1px', marginBottom: '10px', display: 'block' }}>ICON REF</label>
+          <div className="emoji-selector" style={{ display: 'flex', gap: '15px' }}>
             {['📅', '💻', '🎨', '🏃', '🍎', '🏠', '📚'].map((e) => (
               <span
                 key={e}
-                className={`emoji-item ${formState.emoji === e ? 'active' : ''}`}
                 onClick={() => handleChange('emoji', e)}
                 style={{
-                  fontSize: '24px',
-                  marginRight: '8px',
+                  fontSize: '28px',
                   cursor: 'pointer',
-                  border: formState.emoji === e ? '2px solid #8B4513' : 'none',
-                  borderRadius: '5px',
-                  padding: '2px',
+                  padding: '10px',
+                  borderRadius: '12px',
+                  background: formState.emoji === e ? '#f0f4f8' : 'transparent',
+                  border: formState.emoji === e ? '2px solid #4b3621' : '2px solid transparent',
+                  transition: 'all 0.2s'
                 }}
               >
                 {e}
@@ -146,30 +179,29 @@ const AddTaskPage = ({ setToDo }) => {
           </div>
         </div>
 
-        {/* Submit Button */}
         <button
           type="submit"
-          className="submit-task-btn"
           style={{
-            backgroundColor: '#8B4513', // brown
+            background: '#4b3621',
             color: '#fff',
-            padding: '10px 20px',
-            borderRadius: '6px',
-            fontWeight: 'bold',
+            padding: '20px',
+            borderRadius: '18px',
+            fontSize: '1.2rem',
+            fontWeight: '800',
             border: 'none',
             cursor: 'pointer',
-            marginTop: '12px',
+            marginTop: '20px',
+            boxShadow: '0 15px 30px rgba(75, 54, 33, 0.2)',
+            transition: 'all 0.3s'
           }}
+          onMouseOver={(e) => e.currentTarget.style.transform = 'translateY(-3px)'}
+          onMouseOut={(e) => e.currentTarget.style.transform = 'translateY(0)'}
         >
-          {editingTask ? 'Update Task' : 'Create Task'}
+          {editingTask ? 'Save Changes' : 'Launch Task'}
         </button>
       </form>
     </div>
   );
 };
-
-// Helper for priority button class
-const priorityClass = (level, current) =>
-  `${level.toLowerCase()} ${current === level ? 'active' : ''}`;
 
 export default AddTaskPage;

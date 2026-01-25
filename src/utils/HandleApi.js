@@ -79,7 +79,11 @@ export const registerUser = async (userData, callback) => {
 export const loginUser = async (credentials, navigate) => {
   try {
     const res = await api.post("/auth/login", credentials);
-    alert(`Welcome back, ${res.data.user.firstName}!`);
+    // ✅ Save user info to localStorage
+    if (res.data.user) {
+      localStorage.setItem('user', JSON.stringify(res.data.user));
+    }
+    alert(`Welcome back, ${res.data.user.firstName || res.data.user.name.split(' ')[0]}!`);
     if (navigate) navigate("/dashboard");
   } catch (err) {
     const msg = err.response?.data?.message || "Login failed";

@@ -54,7 +54,7 @@ const LoginPage = ({ isSignup = false }) => {
         alert("Please enter a valid email address");
         return;
       }
-      registerUser({ firstName, lastName, email, password }, (success) => {
+      registerUser({ name: `${firstName} ${lastName}`, email, password }, (success) => {
         if (success) setVerificationMode(true);
       });
     } else {
