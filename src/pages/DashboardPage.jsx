@@ -47,10 +47,10 @@ const DashboardPage = ({ toDo, setToDo }) => {
         <section className="hero-section">
           <div className="hero-text">
             <h1 className="hero-greeting">
-              {user ? user.name.split(' ')[0] : 'Dashboard'}
+              {user?.name ? user.name.split(' ')[0] : 'Dashboard'}
             </h1>
             <p className="hero-subtext">
-              You have {toDo.length} task{toDo.length !== 1 && 's'} today.
+              You have {toDo?.length || 0} task{toDo?.length !== 1 && 's'} today.
             </p>
           </div>
 
@@ -74,7 +74,7 @@ const DashboardPage = ({ toDo, setToDo }) => {
         {/* Tasks Section */}
         <section className="task-section">
           <div className="task-grid">
-            {toDo.length > 0 ? (
+            {Array.isArray(toDo) && toDo.length > 0 ? (
               toDo.map((item) => (
                 <div
                   key={item._id}

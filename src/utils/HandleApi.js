@@ -83,7 +83,7 @@ export const loginUser = async (credentials, navigate) => {
     if (res.data.user) {
       localStorage.setItem('user', JSON.stringify(res.data.user));
     }
-    alert(`Welcome back, ${res.data.user.firstName || res.data.user.name.split(' ')[0]}!`);
+    alert(`Welcome back, ${res.data.user.firstName || (res.data.user.name ? res.data.user.name.split(' ')[0] : 'User')}!`);
     if (navigate) navigate("/dashboard");
   } catch (err) {
     const msg = err.response?.data?.message || "Login failed";
