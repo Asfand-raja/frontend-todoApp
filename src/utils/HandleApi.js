@@ -1,7 +1,8 @@
 import axios from "axios";
 
-// ✅ Use backend URL from env
-const baseUrl = process.env.REACT_APP_API_URL || "http://localhost:5000";
+// ✅ Force local backend for now to fix auth issues
+const baseUrl = "http://localhost:5000";
+// const baseUrl = process.env.REACT_APP_API_URL || "http://localhost:5000";
 
 const api = axios.create({
   baseURL: baseUrl,
@@ -16,6 +17,9 @@ export const getAllToDo = async (setToDo) => {
     const response = await api.get("/tasks");
     if (setToDo) setToDo(response.data);
   } catch (err) {
+    if (err.response?.status === 401) {
+      alert("Session expired. Please log out and log back in.");
+    }
     console.error("Error fetching todos:", err.response?.data || err.message);
   }
 };
