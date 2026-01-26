@@ -4,10 +4,11 @@ import { BiLogOut } from 'react-icons/bi';
 import { AiFillDelete, AiOutlinePlus } from 'react-icons/ai';
 import { MdDone } from 'react-icons/md';
 import { getAllToDo, toggleComplete, deleteToDo, logoutUser } from '../utils/HandleApi';
+import { useToDo } from '../context/ToDoContext';
 
-const DashboardPage = ({ toDo, setToDo }) => {
+const DashboardPage = () => {
   const navigate = useNavigate();
-  // removed local toDo state since it is now passed as prop
+  const { toDo, setToDo } = useToDo();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 

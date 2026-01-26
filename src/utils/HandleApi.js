@@ -1,16 +1,17 @@
 import axios from "axios";
+import { toast } from 'react-toastify';
 
 // ✅ Use environment variable for backend URL (fixes Issue #1)
 const baseUrl = process.env.REACT_APP_API_URL || "http://localhost:5000";
 
 const api = axios.create({
   baseURL: baseUrl,
-  withCredentials: true, // keeps cookie-based auth working
+  withCredentials: true,
   headers: { 'Content-Type': 'application/json' },
 });
 
 // ---------------------------
-// REQUEST INTERCEPTOR: Attach JWT if available
+// REQUEST INTERCEPTOR
 // ---------------------------
 api.interceptors.request.use(
   (config) => {
@@ -38,7 +39,7 @@ api.interceptors.response.use(
       sessionStorage.removeItem('authToken');
 
       if (window.location.pathname !== '/' && window.location.pathname !== '/login') {
-        alert('Session expired. Please log in again.');
+        toast.error('Session expired. Please log in again.');
         window.location.href = '/';
       }
     }
@@ -56,7 +57,7 @@ export const getAllToDo = async (setToDo) => {
     return response.data;
   } catch (err) {
     console.error("Error fetching todos:", err.response?.data || err.message);
-    if (err.response?.status !== 401) alert("Failed to load tasks.");
+    if (err.response?.status !== 401) toast.error("Failed to load tasks.");
     throw err;
   }
 };
@@ -69,11 +70,12 @@ export const addToDo = async (todoData, setFormState, setToDo, navigate) => {
     }
     if (setToDo) await getAllToDo(setToDo);
     if (navigate) navigate("/dashboard");
+    toast.success("Task added successfully!");
     return response.data;
   } catch (err) {
     const msg = err.response?.data?.message || err.message || "Failed to add task";
     console.error("Add todo error:", err.response?.data || err.message);
-    if (err.response?.status !== 401) alert(`Error: ${msg}`);
+    if (err.response?.status !== 401) toast.error(`Error: ${msg}`);
     throw err;
   }
 };
@@ -84,11 +86,12 @@ export const updateToDo = async (todoData, setFormState, setToDo, setIsUpdating,
     if (setIsUpdating) setIsUpdating(false);
     if (setToDo) await getAllToDo(setToDo);
     if (navigate) navigate("/dashboard");
+    toast.success("Task updated successfully!");
     return response.data;
   } catch (err) {
     const msg = err.response?.data?.message || err.message || "Failed to update task";
     console.error("Update todo error:", err.response?.data || err.message);
-    if (err.response?.status !== 401) alert(`Error: ${msg}`);
+    if (err.response?.status !== 401) toast.error(`Error: ${msg}`);
     throw err;
   }
 };
@@ -100,7 +103,7 @@ export const toggleComplete = async (todoData, setToDo) => {
     return response.data;
   } catch (err) {
     console.error("Toggle complete error:", err.response?.data || err.message);
-    if (err.response?.status !== 401) alert("Failed to update task status");
+    if (err.response?.status !== 401) toast.error("Failed to update task status");
     throw err;
   }
 };
@@ -109,10 +112,11 @@ export const deleteToDo = async (todoId, setToDo) => {
   try {
     const response = await api.delete("/tasks/delete", { data: { id: todoId } });
     if (setToDo) await getAllToDo(setToDo);
+    toast.success("Task deleted");
     return response.data;
   } catch (err) {
     console.error("Delete todo error:", err.response?.data || err.message);
-    if (err.response?.status !== 401) alert("Failed to delete task");
+    if (err.response?.status !== 401) toast.error("Failed to delete task");
     throw err;
   }
 };
@@ -124,12 +128,12 @@ export const deleteToDo = async (todoId, setToDo) => {
 export const registerUser = async (userData, callback) => {
   try {
     const res = await api.post("/auth/register", userData);
-    alert(res.data.message);
+    toast.success(res.data.message);
     if (callback) callback(true);
     return res.data;
   } catch (err) {
     const msg = err.response?.data?.message || err.message || "Registration failed";
-    alert(`Error: ${msg}`);
+    toast.error(`Error: ${msg}`);
     if (callback) callback(false);
     throw err;
   }
@@ -150,12 +154,12 @@ export const loginUser = async (credentials, navigate, remember = true) => {
     const firstName = res.data.user?.firstName ||
       (res.data.user?.name ? res.data.user.name.split(' ')[0] : 'User');
 
-    alert(`Welcome back, ${firstName}!`);
+    toast.success(`Welcome back, ${firstName}!`);
     if (navigate) navigate("/dashboard");
     return res.data;
   } catch (err) {
     const msg = err.response?.data?.message || "Login failed";
-    alert(msg);
+    toast.error(msg);
     throw err;
   }
 };
@@ -170,6 +174,7 @@ export const logoutUser = async (navigate) => {
     localStorage.removeItem('authToken');
     sessionStorage.removeItem('user');
     sessionStorage.removeItem('authToken');
+    toast.info("Logged out successfully");
     if (navigate) navigate("/");
   }
 };
@@ -181,13 +186,13 @@ export const verifyEmail = async (verificationData, setVerificationMode, navigat
     // Store token if returned after verification
     if (res.data.token) localStorage.setItem('authToken', res.data.token);
 
-    alert(res.data.message);
+    toast.success(res.data.message);
     if (setVerificationMode) setVerificationMode(false);
     if (navigate) navigate("/");
     return res.data;
   } catch (err) {
     const msg = err.response?.data?.message || "Verification failed";
-    alert(msg);
+    toast.error(msg);
     throw err;
   }
 };
@@ -195,11 +200,11 @@ export const verifyEmail = async (verificationData, setVerificationMode, navigat
 export const resendVerificationCode = async (email) => {
   try {
     const res = await api.post("/auth/resend-code", { email });
-    alert(res.data.message);
+    toast.success(res.data.message);
     return res.data;
   } catch (err) {
     const msg = err.response?.data?.message || "Failed to resend code";
-    alert(msg);
+    toast.error(msg);
     throw err;
   }
 };

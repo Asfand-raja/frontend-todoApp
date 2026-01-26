@@ -1,30 +1,30 @@
 
 import React, { useEffect } from "react";
 
-const App=()=>{
-   const getUser= ()=>{
+const App = () => {
+  const getUser = () => {
 
-     fetch ("/api/user")
-     .then(res => res.json)
-     .then(json => console.log(json))
-   }
+    fetch("/api/user")
+      .then(res => res.json())
+      .then(json => console.log(json))
+  }
 
-  
 
-  useEffect(()=>{
-     getUser()
 
-   },[])
+  useEffect(() => {
+    getUser()
 
-   
+  }, [])
 
-  return(
+
+
+  return (
 
     <div>
-    App
+      App
 
     </div>
- )
- }
+  )
+}
 
- export default App
+export default App

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { FcGoogle } from 'react-icons/fc';
 import { AiFillApple, AiFillEyeInvisible, AiFillEye } from 'react-icons/ai';
 import { BsArrowLeft } from 'react-icons/bs';
+import { toast } from 'react-toastify';
 import { loginUser, registerUser, verifyEmail, resendVerificationCode } from '../utils/HandleApi';
 
 const LoginPage = ({ isSignup = false }) => {
@@ -21,10 +22,11 @@ const LoginPage = ({ isSignup = false }) => {
   const [otp, setOtp] = useState("");
 
   const validateEmail = (email) => {
+    // Improved regex for better validation
     return String(email)
       .toLowerCase()
       .match(
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/
       );
   };
 
@@ -34,7 +36,7 @@ const LoginPage = ({ isSignup = false }) => {
     if (provider === "Google") {
       window.location.href = `${backendUrl}/auth/google`;
     } else if (provider === "Apple") {
-      alert("Apple Login support is currently being reviewed for security certification. We'll have it ready soon!");
+      toast.info("Apple Login support is currently being reviewed for security certification. We'll have it ready soon!");
     }
   };
 
@@ -49,7 +51,7 @@ const LoginPage = ({ isSignup = false }) => {
 
     if (isSignup) {
       if (!validateEmail(email)) {
-        alert("Please enter a valid email address");
+        toast.warn("Please enter a valid email address");
         return;
       }
       registerUser({ firstName, lastName, email, password }, (success) => {

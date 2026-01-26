@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { addToDo, updateToDo } from '../utils/HandleApi';
 import { BsArrowLeft } from 'react-icons/bs';
+import { useToDo } from '../context/ToDoContext';
 
-const AddTaskPage = ({ setToDo }) => {
+const AddTaskPage = () => {
+  const { setToDo } = useToDo();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -72,26 +74,26 @@ const AddTaskPage = ({ setToDo }) => {
         boxShadow: '0 20px 50px rgba(0,0,0,0.05)',
         border: '1px solid #f0f4f8'
       }}>
-        <header style={{ 
-          marginBottom: '30px', 
-          display: 'flex', 
-          alignItems: 'center', 
+        <header style={{
+          marginBottom: '30px',
+          display: 'flex',
+          alignItems: 'center',
           gap: '15px',
           flexWrap: 'wrap'
         }}>
           <BsArrowLeft
             onClick={() => navigate('/dashboard')}
-            style={{ 
-              cursor: 'pointer', 
-              fontSize: '24px', 
+            style={{
+              cursor: 'pointer',
+              fontSize: '24px',
               color: '#1e272e',
               minWidth: '24px'
             }}
           />
-          <h1 style={{ 
-            fontSize: 'clamp(1.5rem, 4vw, 2.5rem)', 
-            fontWeight: '800', 
-            color: '#4b3621', 
+          <h1 style={{
+            fontSize: 'clamp(1.5rem, 4vw, 2.5rem)',
+            fontWeight: '800',
+            color: '#4b3621',
             letterSpacing: '-1px',
             margin: 0,
             lineHeight: '1.2'
@@ -102,13 +104,13 @@ const AddTaskPage = ({ setToDo }) => {
 
         <form onSubmit={handleSubmit} style={{ display: 'grid', gap: '25px' }}>
           <div>
-            <label style={{ 
-              fontSize: '0.85rem', 
-              fontWeight: '800', 
-              color: '#5d6d7e', 
-              letterSpacing: '1px', 
-              marginBottom: '10px', 
-              display: 'block' 
+            <label style={{
+              fontSize: '0.85rem',
+              fontWeight: '800',
+              color: '#5d6d7e',
+              letterSpacing: '1px',
+              marginBottom: '10px',
+              display: 'block'
             }}>
               TASK NAME
             </label>
@@ -131,19 +133,19 @@ const AddTaskPage = ({ setToDo }) => {
             />
           </div>
 
-          <div style={{ 
-            display: 'grid', 
-            gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', 
-            gap: '20px' 
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+            gap: '20px'
           }}>
             <div>
-              <label style={{ 
-                fontSize: '0.85rem', 
-                fontWeight: '800', 
-                color: '#5d6d7e', 
-                letterSpacing: '1px', 
-                marginBottom: '10px', 
-                display: 'block' 
+              <label style={{
+                fontSize: '0.85rem',
+                fontWeight: '800',
+                color: '#5d6d7e',
+                letterSpacing: '1px',
+                marginBottom: '10px',
+                display: 'block'
               }}>
                 START DATE
               </label>
@@ -165,13 +167,13 @@ const AddTaskPage = ({ setToDo }) => {
             </div>
 
             <div>
-              <label style={{ 
-                fontSize: '0.85rem', 
-                fontWeight: '800', 
-                color: '#5d6d7e', 
-                letterSpacing: '1px', 
-                marginBottom: '10px', 
-                display: 'block' 
+              <label style={{
+                fontSize: '0.85rem',
+                fontWeight: '800',
+                color: '#5d6d7e',
+                letterSpacing: '1px',
+                marginBottom: '10px',
+                display: 'block'
               }}>
                 DUE DATE
               </label>
@@ -194,20 +196,20 @@ const AddTaskPage = ({ setToDo }) => {
           </div>
 
           <div>
-            <label style={{ 
-              fontSize: '0.85rem', 
-              fontWeight: '800', 
-              color: '#5d6d7e', 
-              letterSpacing: '1px', 
-              marginBottom: '10px', 
-              display: 'block' 
+            <label style={{
+              fontSize: '0.85rem',
+              fontWeight: '800',
+              color: '#5d6d7e',
+              letterSpacing: '1px',
+              marginBottom: '10px',
+              display: 'block'
             }}>
               PRIORITY LEVEL
             </label>
-            <div style={{ 
-              display: 'grid', 
-              gridTemplateColumns: 'repeat(auto-fit, minmax(90px, 1fr))', 
-              gap: '12px' 
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(90px, 1fr))',
+              gap: '12px'
             }}>
               {['Low', 'Medium', 'High'].map((level) => (
                 <button
@@ -234,19 +236,19 @@ const AddTaskPage = ({ setToDo }) => {
           </div>
 
           <div>
-            <label style={{ 
-              fontSize: '0.85rem', 
-              fontWeight: '800', 
-              color: '#5d6d7e', 
-              letterSpacing: '1px', 
-              marginBottom: '10px', 
-              display: 'block' 
+            <label style={{
+              fontSize: '0.85rem',
+              fontWeight: '800',
+              color: '#5d6d7e',
+              letterSpacing: '1px',
+              marginBottom: '10px',
+              display: 'block'
             }}>
               ICON REF
             </label>
-            <div style={{ 
-              display: 'flex', 
-              gap: '10px', 
+            <div style={{
+              display: 'flex',
+              gap: '10px',
               flexWrap: 'wrap',
               justifyContent: 'flex-start'
             }}>
