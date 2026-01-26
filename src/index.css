@@ -697,3 +697,93 @@ body {
   border: 2px dashed #ececec;
   margin-top: 20px;
 }
+
+/* ===============================
+   MOBILE UX + ANIMATIONS + FAB
+================================ */
+
+/* Smooth animations */
+.task-card {
+  animation: fadeUp 0.4s ease forwards;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Better tap targets */
+.todo-check,
+.delete-task-icon,
+.add-task-hero-btn,
+.logout-btn-red {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Floating Action Button */
+.fab-add-btn {
+  display: none;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .hero-section {
+    flex-direction: column;
+    gap: 30px;
+    padding: 32px 24px;
+  }
+
+  .hero-greeting {
+    font-size: 2.1rem;
+  }
+
+  .add-task-hero-btn {
+    width: 100%;
+  }
+
+  .task-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* FAB ENABLE */
+  .fab-add-btn {
+    display: flex;
+    position: fixed;
+    bottom: 22px;
+    right: 22px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--sky-blue);
+    color: white;
+    border: none;
+    font-size: 1.8rem;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 15px 30px rgba(0, 170, 255, 0.4);
+    cursor: pointer;
+    z-index: 999;
+    transition: transform 0.2s ease;
+  }
+
+  .fab-add-btn:active {
+    transform: scale(0.95);
+  }
+}
+
+/* Lighthouse Optimizations */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+button {
+  touch-action: manipulation;
+}

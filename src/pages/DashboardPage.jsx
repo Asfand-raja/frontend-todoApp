@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BiLogOut } from 'react-icons/bi';
-import { AiFillDelete } from 'react-icons/ai';
+import { AiFillDelete, AiOutlinePlus } from 'react-icons/ai';
 import { MdDone } from 'react-icons/md';
 import { getAllToDo, toggleComplete, deleteToDo } from '../utils/HandleApi';
 
@@ -11,11 +11,8 @@ const DashboardPage = () => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    // Load user from localStorage
     const storedUser = JSON.parse(localStorage.getItem('user'));
     if (storedUser) setUser(storedUser);
-
-    // Fetch tasks
     getAllToDo(setToDo);
   }, []);
 
@@ -33,7 +30,7 @@ const DashboardPage = () => {
 
   return (
     <div className="dashboard-page">
-      {/* Navbar */}
+      {/* NAVBAR */}
       <nav className="dashboard-navbar">
         <div className="navbar-container">
           <h2 className="navbar-title">
@@ -45,9 +42,8 @@ const DashboardPage = () => {
         </div>
       </nav>
 
-      {/* Main Content */}
       <main className="dashboard-container">
-        {/* Hero Section */}
+        {/* HERO */}
         <section className="hero-section">
           <div className="hero-text">
             <h1 className="hero-greeting">
@@ -58,16 +54,17 @@ const DashboardPage = () => {
             </p>
           </div>
 
-          {/* ✅ Fixed route */}
-          <button
-            className="add-task-hero-btn"
-            onClick={() => navigate('/add-task')}
-          >
-            + Add New Task
-          </button>
+          <div className="hero-action">
+            <button
+              className="add-task-hero-btn"
+              onClick={() => navigate('/add-task')}
+            >
+              + Add New Task
+            </button>
+          </div>
         </section>
 
-        {/* Tasks Section */}
+        {/* TASKS */}
         <section className="task-section">
           <div className="task-grid">
             {toDo.length > 0 ? (
@@ -75,7 +72,6 @@ const DashboardPage = () => {
                 <div
                   key={item._id}
                   className={`task-card ${item.completed ? 'completed' : ''}`}
-                  // ✅ Fixed route
                   onClick={() =>
                     navigate('/edit-task', { state: { task: item } })
                   }
@@ -83,9 +79,7 @@ const DashboardPage = () => {
                   <div className="task-header">
                     <div className="task-header-left">
                       <div
-                        className={`todo-check ${
-                          item.completed ? 'checked' : ''
-                        }`}
+                        className={`todo-check ${item.completed ? 'checked' : ''}`}
                         onClick={(e) => {
                           e.stopPropagation();
                           toggleComplete(
@@ -96,9 +90,7 @@ const DashboardPage = () => {
                       >
                         {item.completed && <MdDone color="#fff" />}
                       </div>
-                      <span className="task-emoji">
-                        {item.emoji || '📅'}
-                      </span>
+                      <span className="task-emoji">{item.emoji || '📅'}</span>
                     </div>
 
                     <div
@@ -107,9 +99,7 @@ const DashboardPage = () => {
                     >
                       <span
                         className="priority-badge"
-                        style={{
-                          backgroundColor: getPriorityColor(item.priority),
-                        }}
+                        style={{ backgroundColor: getPriorityColor(item.priority) }}
                       >
                         {item.priority}
                       </span>
@@ -126,19 +116,26 @@ const DashboardPage = () => {
                   </div>
 
                   <div className="task-main">
-                    <label>TASK</label>
-                    <p>{item.text}</p>
+                    <label className="task-label">TASK</label>
+                    <p className="task-text">{item.text}</p>
                   </div>
                 </div>
               ))
             ) : (
-              <p className="no-tasks">
-                No tasks found. Time to add some!
-              </p>
+              <p className="no-tasks">No tasks found. Time to add some!</p>
             )}
           </div>
         </section>
       </main>
+
+      {/* MOBILE FAB */}
+      <button
+        className="fab-add-btn"
+        onClick={() => navigate('/add-task')}
+        aria-label="Add Task"
+      >
+        <AiOutlinePlus />
+      </button>
     </div>
   );
 };
