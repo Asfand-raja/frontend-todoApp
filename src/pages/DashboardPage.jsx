@@ -14,7 +14,10 @@ const DashboardPage = ({ toDo, setToDo }) => {
   useEffect(() => {
     // Safely parse user data
     try {
-      const storedUser = JSON.parse(localStorage.getItem('user'));
+      // Check both local and session storage
+      const storedUser = JSON.parse(localStorage.getItem('user')) ||
+        JSON.parse(sessionStorage.getItem('user'));
+
       if (storedUser) {
         setUser(storedUser);
       } else {
