@@ -7,6 +7,10 @@
   font-family: 'Poppins', sans-serif;
 }
 
+html {
+  scrollbar-gutter: stable;
+}
+
 :root {
   --bg-color: #cceaff;
   --white: #ffffff;
@@ -257,7 +261,10 @@ body {
 
 .navbar-container {
   width: 100%;
-  margin: 0;
+  max-width: 1400px;
+  /* Match dashboard-container width */
+  margin: 0 auto;
+  /* Center the container */
   display: flex;
   justify-content: space-between;
   align-items: center;

@@ -13,7 +13,7 @@ function App() {
     <ErrorBoundary>
       <ToDoProvider>
         <Router>
-          <ToastContainer position="top-right" autoClose={3000} />
+          <ToastContainer position="top-center" autoClose={3000} />
           <Routes>
             <Route path="/" element={<LoginPage />} />
             <Route path="/signup" element={<LoginPage isSignup={true} />} />
