@@ -11,11 +11,11 @@ const DashboardPage = () => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    // Load user
+    // Load user from localStorage
     const storedUser = JSON.parse(localStorage.getItem('user'));
     if (storedUser) setUser(storedUser);
 
-    // Fetch tasks AFTER login
+    // Fetch tasks
     getAllToDo(setToDo);
   }, []);
 
@@ -45,8 +45,9 @@ const DashboardPage = () => {
         </div>
       </nav>
 
-      {/* Main */}
+      {/* Main Content */}
       <main className="dashboard-container">
+        {/* Hero Section */}
         <section className="hero-section">
           <div className="hero-text">
             <h1 className="hero-greeting">
@@ -57,14 +58,16 @@ const DashboardPage = () => {
             </p>
           </div>
 
+          {/* ✅ Fixed route */}
           <button
             className="add-task-hero-btn"
-            onClick={() => navigate('/add')}
+            onClick={() => navigate('/add-task')}
           >
             + Add New Task
           </button>
         </section>
 
+        {/* Tasks Section */}
         <section className="task-section">
           <div className="task-grid">
             {toDo.length > 0 ? (
@@ -72,14 +75,17 @@ const DashboardPage = () => {
                 <div
                   key={item._id}
                   className={`task-card ${item.completed ? 'completed' : ''}`}
+                  // ✅ Fixed route
                   onClick={() =>
-                    navigate('/add', { state: { task: item } })
+                    navigate('/edit-task', { state: { task: item } })
                   }
                 >
                   <div className="task-header">
                     <div className="task-header-left">
                       <div
-                        className={`todo-check ${item.completed ? 'checked' : ''}`}
+                        className={`todo-check ${
+                          item.completed ? 'checked' : ''
+                        }`}
                         onClick={(e) => {
                           e.stopPropagation();
                           toggleComplete(
@@ -90,7 +96,9 @@ const DashboardPage = () => {
                       >
                         {item.completed && <MdDone color="#fff" />}
                       </div>
-                      <span className="task-emoji">{item.emoji || '📅'}</span>
+                      <span className="task-emoji">
+                        {item.emoji || '📅'}
+                      </span>
                     </div>
 
                     <div
@@ -124,7 +132,9 @@ const DashboardPage = () => {
                 </div>
               ))
             ) : (
-              <p className="no-tasks">No tasks found. Time to add some!</p>
+              <p className="no-tasks">
+                No tasks found. Time to add some!
+              </p>
             )}
           </div>
         </section>
