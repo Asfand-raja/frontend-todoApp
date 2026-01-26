@@ -72,6 +72,46 @@ export const addToDo = async (todoData, setFormState, setToDo, navigate) => {
     throw err;
   }
 };
+export const updateToDo = async (todoData, setFormState, setToDo, setIsUpdating, navigate) => {
+  try {
+    const response = await api.put("/tasks/update", todoData);
+    if (setFormState) setFormState({ text: '', ongoingDate: '', lastDate: '', priority: 'Medium', emoji: '📅' });
+    if (setIsUpdating) setIsUpdating(false);
+    if (setToDo) await getAllToDo(setToDo);
+    if (navigate) navigate("/dashboard");
+    return response.data;
+  } catch (err) {
+    const msg = err.response?.data?.message || err.message || "Failed to update task";
+    console.error("Update todo error:", err.response?.data || err.message);
+    if (err.response?.status !== 401) alert(`Error: ${msg}`);
+    throw err;
+  }
+};
+
+export const toggleComplete = async (todoData, setToDo) => {
+  try {
+    const response = await api.put("/tasks/update", todoData);
+    if (setToDo) await getAllToDo(setToDo);
+    return response.data;
+  } catch (err) {
+    console.error("Toggle complete error:", err.response?.data || err.message);
+    if (err.response?.status !== 401) alert("Failed to update task status");
+    throw err;
+  }
+};
+
+export const deleteToDo = async (todoId, setToDo) => {
+  try {
+    const response = await api.delete("/tasks/delete", { data: { id: todoId } });
+    if (setToDo) await getAllToDo(setToDo);
+    return response.data;
+  } catch (err) {
+    console.error("Delete todo error:", err.response?.data || err.message);
+    if (err.response?.status !== 401) alert("Failed to delete task");
+    throw err;
+  }
+};
+
 
 // ... include updateToDo, toggleComplete, deleteToDo as before
 
