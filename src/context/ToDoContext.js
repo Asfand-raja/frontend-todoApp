@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useState, useCallback } from 'react';
 import { getAllToDo } from '../utils/HandleApi';
-import { toast } from 'react-toastify';
 
 const ToDoContext = createContext();
 
