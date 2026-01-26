@@ -5,33 +5,37 @@ import { AiFillDelete, AiOutlinePlus } from 'react-icons/ai';
 import { MdDone } from 'react-icons/md';
 import { getAllToDo, toggleComplete, deleteToDo, logoutUser } from '../utils/HandleApi';
 
-const DashboardPage = () => {
+const DashboardPage = ({ toDo, setToDo }) => {
   const navigate = useNavigate();
-  const [toDo, setToDo] = useState([]);
+  // removed local toDo state since it is now passed as prop
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const storedUser = JSON.parse(localStorage.getItem('user'));
-    if (!storedUser) {
+    // Safely parse user data
+    try {
+      const storedUser = JSON.parse(localStorage.getItem('user'));
+      if (storedUser) {
+        setUser(storedUser);
+      } else {
+        navigate('/');
+        return;
+      }
+    } catch (error) {
+      console.error('Error parsing user data:', error);
+      localStorage.removeItem('user');
       navigate('/');
       return;
     }
-    
-    setUser(storedUser);
-    
+
     // Fetch tasks
     getAllToDo(setToDo)
       .catch((error) => {
         console.error('Failed to load tasks:', error);
-        if (error.response?.status === 401) {
-          // Session expired, redirect to login
-          localStorage.removeItem('user');
-          navigate('/');
-        }
+        // 401 handling is done in HandleApi interceptor
       })
       .finally(() => setLoading(false));
-  }, [navigate]);
+  }, [navigate, setToDo]);
 
   const handleLogout = async () => {
     try {

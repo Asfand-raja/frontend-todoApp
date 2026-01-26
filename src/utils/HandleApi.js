@@ -1,7 +1,7 @@
 import axios from "axios";
 
-// ✅ Railway backend URL
-const baseUrl = "https://fullstack-todoapp-backend-production.up.railway.app";
+// ✅ Use environment variable for backend URL (fixes Issue #1)
+const baseUrl = process.env.REACT_APP_API_URL || "http://localhost:5000";
 
 const api = axios.create({
   baseURL: baseUrl,
@@ -14,7 +14,8 @@ const api = axios.create({
 // ---------------------------
 api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('authToken');
+    // Check both local and session storage (fixes Issue #7 - Remember Me)
+    const token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -30,8 +31,12 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
+      // Clear both storages
       localStorage.removeItem('user');
       localStorage.removeItem('authToken');
+      sessionStorage.removeItem('user');
+      sessionStorage.removeItem('authToken');
+
       if (window.location.pathname !== '/' && window.location.pathname !== '/login') {
         alert('Session expired. Please log in again.');
         window.location.href = '/';
@@ -113,8 +118,6 @@ export const deleteToDo = async (todoId, setToDo) => {
 };
 
 
-// ... include updateToDo, toggleComplete, deleteToDo as before
-
 // =====================
 // AUTH API with JWT fallback
 // =====================
@@ -132,18 +135,20 @@ export const registerUser = async (userData, callback) => {
   }
 };
 
-export const loginUser = async (credentials, navigate) => {
+export const loginUser = async (credentials, navigate, remember = true) => {
   try {
     const res = await api.post("/auth/login", credentials);
 
+    const storage = remember ? localStorage : sessionStorage;
+
     // Store user info
-    if (res.data.user) localStorage.setItem('user', JSON.stringify(res.data.user));
+    if (res.data.user) storage.setItem('user', JSON.stringify(res.data.user));
 
     // ✅ Store token if backend returns it
-    if (res.data.token) localStorage.setItem('authToken', res.data.token);
+    if (res.data.token) storage.setItem('authToken', res.data.token);
 
     const firstName = res.data.user?.firstName ||
-                      (res.data.user?.name ? res.data.user.name.split(' ')[0] : 'User');
+      (res.data.user?.name ? res.data.user.name.split(' ')[0] : 'User');
 
     alert(`Welcome back, ${firstName}!`);
     if (navigate) navigate("/dashboard");
@@ -163,6 +168,8 @@ export const logoutUser = async (navigate) => {
   } finally {
     localStorage.removeItem('user');
     localStorage.removeItem('authToken');
+    sessionStorage.removeItem('user');
+    sessionStorage.removeItem('authToken');
     if (navigate) navigate("/");
   }
 };

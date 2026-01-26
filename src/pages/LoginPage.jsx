@@ -8,6 +8,7 @@ import { loginUser, registerUser, verifyEmail, resendVerificationCode } from '..
 const LoginPage = ({ isSignup = false }) => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
 
   // Form state
   const [firstName, setFirstName] = useState("");
@@ -28,6 +29,7 @@ const LoginPage = ({ isSignup = false }) => {
   };
 
   const handleSocialLogin = (provider) => {
+    // ✅ Use environment variable (Fixes Issue #3)
     const backendUrl = process.env.REACT_APP_API_URL || "http://localhost:5000";
     if (provider === "Google") {
       window.location.href = `${backendUrl}/auth/google`;
@@ -54,7 +56,8 @@ const LoginPage = ({ isSignup = false }) => {
         if (success) setVerificationMode(true);
       });
     } else {
-      loginUser({ email, password }, navigate);
+      // Pass rememberMe state
+      loginUser({ email, password }, navigate, rememberMe);
     }
   };
 
@@ -162,7 +165,12 @@ const LoginPage = ({ isSignup = false }) => {
 
           <div className="form-options">
             <div className="remember-me">
-              <input type="checkbox" id="remember" />
+              <input
+                type="checkbox"
+                id="remember"
+                checked={rememberMe}
+                onChange={(e) => setRememberMe(e.target.checked)}
+              />
               <label htmlFor="remember">Remember me</label>
             </div>
           </div>
