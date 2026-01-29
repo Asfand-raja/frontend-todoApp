@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FcGoogle } from 'react-icons/fc';
-import { AiFillApple, AiFillEyeInvisible, AiFillEye } from 'react-icons/ai';
+import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai';
 import { BsArrowLeft } from 'react-icons/bs';
 import { toast } from 'react-toastify';
 import { loginUser, registerUser, verifyEmail, resendVerificationCode } from '../utils/HandleApi';
@@ -34,8 +34,6 @@ const LoginPage = ({ isSignup = false }) => {
     const backendUrl = process.env.REACT_APP_API_URL || "http://localhost:5000";
     if (provider === "Google") {
       window.location.href = `${backendUrl}/auth/google`;
-    } else if (provider === "Apple") {
-      toast.info("Apple Login support is currently being reviewed for security certification. We'll have it ready soon!");
     }
   };
 
@@ -188,9 +186,6 @@ const LoginPage = ({ isSignup = false }) => {
         <div className="social-logins">
           <div className="social-icon-card" onClick={() => handleSocialLogin("Google")}>
             <FcGoogle />
-          </div>
-          <div className="social-icon-card" onClick={() => handleSocialLogin("Apple")}>
-            <AiFillApple />
           </div>
         </div>
 
