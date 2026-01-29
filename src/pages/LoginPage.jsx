@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { FcGoogle } from 'react-icons/fc';
 import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai';
 import { BsArrowLeft } from 'react-icons/bs';
@@ -8,6 +8,7 @@ import { loginUser, registerUser, verifyEmail, resendVerificationCode } from '..
 
 const LoginPage = ({ isSignup = false }) => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
 
@@ -20,6 +21,21 @@ const LoginPage = ({ isSignup = false }) => {
   // Verification state
   const [verificationMode, setVerificationMode] = useState(false);
   const [otp, setOtp] = useState("");
+
+  // Auto-detect verification mode from URL (Google OAuth flow)
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const verifyParam = params.get('verify');
+    const emailParam = params.get('email');
+
+    if (verifyParam === 'true' && emailParam) {
+      setEmail(emailParam);
+      setVerificationMode(true);
+      toast.info("A verification code has been sent to your email.");
+      // Clear the query params from the URL bar
+      navigate(location.pathname, { replace: true });
+    }
+  }, [location, navigate]);
 
   const validateEmail = (email) => {
     // Improved regex for better validation
