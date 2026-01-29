@@ -9,7 +9,7 @@ import { loginUser, registerUser, verifyEmail, resendVerificationCode } from '..
 const LoginPage = ({ isSignup = false }) => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
-  const [rememberMe, setRememberMe] = useState(false);
+  const [rememberMe, setRememberMe] = useState(true);
 
   // Form state
   const [firstName, setFirstName] = useState("");
