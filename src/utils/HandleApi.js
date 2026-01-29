@@ -183,12 +183,21 @@ export const verifyEmail = async (verificationData, setVerificationMode, navigat
   try {
     const res = await api.post("/auth/verify", verificationData);
 
-    // Store token if returned after verification
-    if (res.data.token) localStorage.setItem('authToken', res.data.token);
+    // Store token and user if returned after verification (for Google flow)
+    if (res.data.token) {
+      localStorage.setItem('authToken', res.data.token);
+      if (res.data.user) localStorage.setItem('user', JSON.stringify(res.data.user));
+    }
 
     toast.success(res.data.message);
     if (setVerificationMode) setVerificationMode(false);
-    if (navigate) navigate("/");
+
+    // Redirect to dashboard if logged in, otherwise go to home
+    if (res.data.token && navigate) {
+      navigate("/dashboard");
+    } else if (navigate) {
+      navigate("/");
+    }
     return res.data;
   } catch (err) {
     const msg = err.response?.data?.message || "Verification failed";
