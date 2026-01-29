@@ -31,7 +31,6 @@ const LoginPage = ({ isSignup = false }) => {
   };
 
   const handleSocialLogin = (provider) => {
-    // ✅ Use environment variable (Fixes Issue #3)
     const backendUrl = process.env.REACT_APP_API_URL || "http://localhost:5000";
     if (provider === "Google") {
       window.location.href = `${backendUrl}/auth/google`;
