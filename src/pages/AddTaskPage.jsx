@@ -11,7 +11,7 @@ const AddTaskPage = () => {
 
   // Check authentication on mount
   useEffect(() => {
-    const user = localStorage.getItem('user');
+    const user = localStorage.getItem('user') || sessionStorage.getItem('user');
     if (!user) {
       alert('Please log in to add tasks');
       navigate('/');
