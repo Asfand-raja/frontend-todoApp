@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BiLogOut } from 'react-icons/bi';
-import { AiFillDelete, AiOutlinePlus } from 'react-icons/ai';
-import { MdDone } from 'react-icons/md';
+import { AiOutlinePlus } from 'react-icons/ai';
 import { getAllToDo, toggleComplete, deleteToDo, logoutUser } from '../utils/HandleApi';
+<<<<<<< HEAD
 import { useToDo } from '../context/ToDoContext';
+=======
+import ToDo from '../components/ToDo'; // import your new ToDo component
+>>>>>>> ba1e630 (Update Todo App branding: change title to Todo App and add logo to login page)
 
 const DashboardPage = () => {
   const navigate = useNavigate();
@@ -32,11 +35,23 @@ const DashboardPage = () => {
       return;
     }
 
+<<<<<<< HEAD
     // Fetch tasks
     getAllToDo(setToDo)
       .catch((error) => {
         console.error('Failed to load tasks:', error);
         // 401 handling is done in HandleApi interceptor
+=======
+    setUser(storedUser);
+
+    getAllToDo(setToDo)
+      .catch((error) => {
+        console.error('Failed to load tasks:', error);
+        if (error.response?.status === 401) {
+          localStorage.removeItem('user');
+          navigate('/');
+        }
+>>>>>>> ba1e630 (Update Todo App branding: change title to Todo App and add logo to login page)
       })
       .finally(() => setLoading(false));
   }, [navigate, setToDo]);
@@ -46,17 +61,9 @@ const DashboardPage = () => {
       await logoutUser(navigate);
     } catch (error) {
       console.error('Logout error:', error);
-      // Still redirect even if logout fails
       localStorage.removeItem('user');
       navigate('/');
     }
-  };
-
-  const getPriorityColor = (priority) => {
-    if (priority === 'High') return '#ff5252';
-    if (priority === 'Medium') return '#ffca28';
-    if (priority === 'Low') return '#00aaff';
-    return '#5d6d7e';
   };
 
   if (loading) {
@@ -99,7 +106,6 @@ const DashboardPage = () => {
               You have {toDo.length} task{toDo.length !== 1 ? 's' : ''} today.
             </p>
           </div>
-
           <div className="hero-action">
             <button
               className="add-task-hero-btn"
@@ -115,57 +121,21 @@ const DashboardPage = () => {
           <div className="task-grid">
             {toDo.length > 0 ? (
               toDo.map((item) => (
-                <div
+                <ToDo
                   key={item._id}
-                  className={`task-card ${item.completed ? 'completed' : ''}`}
-                  onClick={() =>
-                    navigate('/edit-task', { state: { task: item } })
-                  }
-                >
-                  <div className="task-header">
-                    <div className="task-header-left">
-                      <div
-                        className={`todo-check ${item.completed ? 'checked' : ''}`}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          toggleComplete(
-                            { id: item._id, completed: !item.completed },
-                            setToDo
-                          );
-                        }}
-                      >
-                        {item.completed && <MdDone color="#fff" />}
-                      </div>
-                      <span className="task-emoji">{item.emoji || '📅'}</span>
-                    </div>
-
-                    <div
-                      className="task-header-right"
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      <span
-                        className="priority-badge"
-                        style={{ backgroundColor: getPriorityColor(item.priority) }}
-                      >
-                        {item.priority}
-                      </span>
-
-                      <AiFillDelete
-                        className="delete-task-icon"
-                        onClick={() => {
-                          if (window.confirm('Delete this task?')) {
-                            deleteToDo(item._id, setToDo);
-                          }
-                        }}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="task-main">
-                    <label className="task-label">TASK</label>
-                    <p className="task-text">{item.text}</p>
-                  </div>
-                </div>
+                  id={item._id}
+                  text={item.text}
+                  ongoingDate={item.ongoingDate}
+                  lastDate={item.lastDate}
+                  emoji={item.emoji || '📅'}
+                  completed={item.completed}
+                  priority={item.priority}
+                  updateMode={() => navigate('/edit-task', { state: { task: item } })}
+                  deleteToDo={() => {
+                    if (window.confirm('Delete this task?')) deleteToDo(item._id, setToDo);
+                  }}
+                  toggleComplete={() => toggleComplete({ id: item._id, completed: !item.completed }, setToDo)}
+                />
               ))
             ) : (
               <p className="no-tasks">No tasks found. Time to add some!</p>
