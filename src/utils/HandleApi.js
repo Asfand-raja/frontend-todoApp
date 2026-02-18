@@ -231,7 +231,11 @@ export const verifyEmail = async (verificationData, setVerificationMode, navigat
       setUser?.(res.data.user);
     }
 
+<<<<<<< HEAD
     toast.success(res.data.message);
+=======
+    alert(res.data.message);
+>>>>>>> 4b686ba (Update branding and fix Google OAuth verification flow)
     setVerificationMode?.(false);
 
     if (res.data.token) {

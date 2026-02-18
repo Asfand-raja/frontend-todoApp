@@ -27,7 +27,10 @@ const LoginPage = ({ isSignup = false }) => {
     if (verifyParam === 'true' && emailParam) {
       setEmail(emailParam);
       setVerificationMode(true);
+<<<<<<< HEAD
       toast.info("A verification code has been sent to your email.");
+=======
+>>>>>>> 4b686ba (Update branding and fix Google OAuth verification flow)
       // Clear the query params from the URL bar
       navigate(location.pathname, { replace: true });
     }

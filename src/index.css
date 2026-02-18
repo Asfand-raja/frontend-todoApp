@@ -286,6 +286,7 @@ body {
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 /* Responsive Navbar */
 @media (max-width: 600px) {
   .navbar-title {
@@ -300,6 +301,21 @@ body {
 
 =======
 >>>>>>> ba1e630 (Update Todo App branding: change title to Todo App and add logo to login page)
+=======
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.navbar-logo {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+>>>>>>> 4b686ba (Update branding and fix Google OAuth verification flow)
 .logout-btn-red {
   background: #fff1f0;
   color: #ff4d4f;

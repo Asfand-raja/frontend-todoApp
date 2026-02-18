@@ -7,7 +7,11 @@ import { getAllToDo, toggleComplete, deleteToDo, logoutUser } from '../utils/Han
 import { useToDo } from '../context/ToDoContext';
 =======
 import ToDo from '../components/ToDo'; // import your new ToDo component
+<<<<<<< HEAD
 >>>>>>> ba1e630 (Update Todo App branding: change title to Todo App and add logo to login page)
+=======
+import logo from '../logo.webp';
+>>>>>>> 4b686ba (Update branding and fix Google OAuth verification flow)
 
 const DashboardPage = () => {
   const navigate = useNavigate();
@@ -86,9 +90,12 @@ const DashboardPage = () => {
       {/* NAVBAR */}
       <nav className="dashboard-navbar">
         <div className="navbar-container">
-          <h2 className="navbar-title">
-            {user ? `${user.firstName || user.name || ''} ${user.lastName || ''}`.trim() || 'My Tasks' : 'My Tasks'}
-          </h2>
+          <div className="navbar-brand">
+            <img src={logo} alt="Todo App Logo" className="navbar-logo" />
+            <h2 className="navbar-title">
+              {user ? `${user.firstName || user.name || ''} ${user.lastName || ''}`.trim() || 'My Tasks' : 'My Tasks'}
+            </h2>
+          </div>
           <button className="logout-btn-red" onClick={handleLogout}>
             <BiLogOut /> Logout
           </button>
