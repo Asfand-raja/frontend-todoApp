@@ -5,6 +5,7 @@ import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai';
 import { BsArrowLeft } from 'react-icons/bs';
 import { toast } from 'react-toastify';
 import { loginUser, registerUser, verifyEmail, resendVerificationCode } from '../utils/HandleApi';
+import logo from '../logo.webp';
 
 const LoginPage = ({ isSignup = false }) => {
   const navigate = useNavigate();
@@ -126,6 +127,9 @@ const LoginPage = ({ isSignup = false }) => {
             <BsArrowLeft />
           </div>
         )}
+        <div className="logo-container">
+          <img src={logo} alt="Todo App Logo" className="login-logo" />
+        </div>
         <h1 className="welcome-text">{isSignup ? "Join Us!" : "Welcome!"}</h1>
         {isSignup && <p className="description">Kick in! Leave procrastination behind.</p>}
 
