@@ -50,7 +50,6 @@ body {
   position: relative;
 }
 
-<<<<<<< HEAD
 /* Responsive Login */
 @media (max-width: 600px) {
   .login-box {
@@ -63,8 +62,6 @@ body {
   }
 }
 
-=======
->>>>>>> ba1e630 (Update Todo App branding: change title to Todo App and add logo to login page)
 .back-arrow {
   position: absolute;
   top: 30px;
@@ -253,13 +250,7 @@ body {
 .dashboard-navbar {
   background: rgba(227, 242, 253, 0.85);
   -webkit-backdrop-filter: blur(15px);
-<<<<<<< HEAD
-  /* put vendor prefix first */
   backdrop-filter: blur(15px);
-  /* standard property second */
-=======
-  backdrop-filter: blur(15px);
->>>>>>> ba1e630 (Update Todo App branding: change title to Todo App and add logo to login page)
   border-bottom: 1px solid rgba(0, 170, 255, 0.1);
   position: sticky;
   top: 0;
@@ -285,23 +276,6 @@ body {
   color: var(--text-dark);
 }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-/* Responsive Navbar */
-@media (max-width: 600px) {
-  .navbar-title {
-    font-size: 1.1rem;
-  }
-
-  .logout-btn-red {
-    padding: 6px 12px !important;
-    font-size: 0.85rem !important;
-  }
-}
-
-=======
->>>>>>> ba1e630 (Update Todo App branding: change title to Todo App and add logo to login page)
-=======
 .navbar-brand {
   display: flex;
   align-items: center;
@@ -315,7 +289,18 @@ body {
   border-radius: 8px;
 }
 
->>>>>>> 4b686ba (Update branding and fix Google OAuth verification flow)
+/* Responsive Navbar */
+@media (max-width: 600px) {
+  .navbar-title {
+    font-size: 1.1rem;
+  }
+
+  .logout-btn-red {
+    padding: 6px 12px !important;
+    font-size: 0.85rem !important;
+  }
+}
+
 .logout-btn-red {
   background: #fff1f0;
   color: #ff4d4f;
@@ -358,7 +343,6 @@ body {
   gap: 30px;
 }
 
-<<<<<<< HEAD
 /* Responsive Hero Section */
 @media (max-width: 768px) {
   .hero-section {
@@ -387,8 +371,6 @@ body {
   }
 }
 
-=======
->>>>>>> ba1e630 (Update Todo App branding: change title to Todo App and add logo to login page)
 .hero-greeting {
   font-size: 3rem;
   font-weight: 800;
@@ -442,7 +424,6 @@ body {
   overflow: hidden;
 }
 
-<<<<<<< HEAD
 /* Responsive Task Card */
 @media (max-width: 480px) {
   .task-card {
@@ -548,14 +529,11 @@ body {
   /* Circular touch effect */
 }
 
-
 .delete-task-icon:hover {
   opacity: 1;
   transform: scale(1.2);
 }
 
-=======
->>>>>>> ba1e630 (Update Todo App branding: change title to Todo App and add logo to login page)
 .task-card.completed {
   opacity: 0.85;
   background: #f5f5f7;
@@ -586,7 +564,6 @@ body {
 .add-task-header h1 {
   font-size: 2rem;
   color: var(--text-dark);
-<<<<<<< HEAD
   line-height: 1.2;
 }
 
@@ -604,8 +581,6 @@ body {
   .back-icon {
     font-size: 1.3rem;
   }
-=======
->>>>>>> ba1e630 (Update Todo App branding: change title to Todo App and add logo to login page)
 }
 
 .add-task-form {
