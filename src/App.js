@@ -18,6 +18,7 @@ function App() {
             <ToastContainer position="top-center" autoClose={3000} />
             <Routes>
               <Route path="/" element={<LoginPage />} />
+              <Route path="/login" element={<LoginPage />} />
               <Route path="/signup" element={<LoginPage isSignup={true} />} />
               <Route path="/dashboard" element={<DashboardPage />} />
               <Route path="/add-task" element={<AddTaskPage />} />

@@ -118,6 +118,11 @@ const LoginPage = ({ isSignup = false }) => {
 
     return (
       <div className="login-screen">
+        <div className="brand-header">
+          <img src={logo} alt="Todo App Logo" className="brand-logo" />
+          <span className="brand-name">Todo App</span>
+        </div>
+
         <div className="login-box">
           <h1 className="welcome-text">Verify Email</h1>
           <p className="description">Enter the 6-digit code sent to your email.</p>
@@ -155,16 +160,17 @@ const LoginPage = ({ isSignup = false }) => {
   // -------------------------
   return (
     <div className="login-screen">
+      <div className="brand-header">
+        <img src={logo} alt="Todo App Logo" className="brand-logo" />
+        <span className="brand-name">Todo App</span>
+      </div>
+
       <div className="login-box">
         {isSignup && (
           <div className="back-arrow" onClick={() => navigate('/')}>
             <BsArrowLeft />
           </div>
         )}
-
-        <div className="logo-container">
-          <img src={logo} alt="Todo App Logo" className="login-logo" />
-        </div>
 
         <h1 className="welcome-text">{isSignup ? 'Join Us!' : 'Welcome!'}</h1>
         {isSignup && <p className="description">Kick in! Leave procrastination behind.</p>}
