@@ -3,15 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { BiLogOut } from 'react-icons/bi';
 import { AiOutlinePlus } from 'react-icons/ai';
 import { getAllToDo, toggleComplete, deleteToDo, logoutUser } from '../utils/HandleApi';
-<<<<<<< HEAD
 import { useToDo } from '../context/ToDoContext';
-=======
 import ToDo from '../components/ToDo'; // import your new ToDo component
-<<<<<<< HEAD
->>>>>>> ba1e630 (Update Todo App branding: change title to Todo App and add logo to login page)
-=======
 import logo from '../logo.webp';
->>>>>>> 4b686ba (Update branding and fix Google OAuth verification flow)
 
 const DashboardPage = () => {
   const navigate = useNavigate();
@@ -39,23 +33,11 @@ const DashboardPage = () => {
       return;
     }
 
-<<<<<<< HEAD
     // Fetch tasks
     getAllToDo(setToDo)
       .catch((error) => {
         console.error('Failed to load tasks:', error);
         // 401 handling is done in HandleApi interceptor
-=======
-    setUser(storedUser);
-
-    getAllToDo(setToDo)
-      .catch((error) => {
-        console.error('Failed to load tasks:', error);
-        if (error.response?.status === 401) {
-          localStorage.removeItem('user');
-          navigate('/');
-        }
->>>>>>> ba1e630 (Update Todo App branding: change title to Todo App and add logo to login page)
       })
       .finally(() => setLoading(false));
   }, [navigate, setToDo]);
